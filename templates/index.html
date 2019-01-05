@@ -8,18 +8,22 @@
   <body>
     <div class="container">
         <div class="page-header">
-            <h1>{{ page_name }}</h1> <!--Adiciona variáveis de maneira dinâmica-->
+            <h1>{{ page_name }}</h1> <!--Adding dynamic var-->
         </div>
         <table class="table table-striped table-responsive table-bordered">
             <thead class="thead-default">
                 <tr>
-                    <th>Nome</th>
+                    <th>Name</th>
+                    <th>Categoria</th>
+                    <th>Console</th>
                 </tr>
             </thead>
             <tbody>
                 {% for game in games %}
                 <tr>
-                    <td>{{ game }}</td>
+                    <td>{{ game.name }}</td>
+                    <td>{{ game.category }}</td>
+                    <td>{{ game.console }}</td>
                 </tr>
                 {% endfor %}
             </tbody>
