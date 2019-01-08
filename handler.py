@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect
 
 from game import Game
 
@@ -29,7 +29,7 @@ def save_game():
     new_game = Game(name=nome, category=categoria, console=console)
     games.append(new_game)
 
-    return render_template("index.html", page_name='Jogos', games=games)
+    return redirect("/")
 
 
 app.run(debug=True)
