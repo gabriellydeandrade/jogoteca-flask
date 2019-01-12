@@ -18,7 +18,9 @@ def index():
 
 @app.route("/new_game")
 def new_game():
-    return render_template("new_game.html", page_name="Novo Jogo")
+    if session["is_logged"]:
+        return render_template("new_game.html", page_name="Novo Jogo")
+    return redirect("/login?new_page=new_game")
 
 
 @app.route("/save_game", methods=['POST'])
@@ -35,7 +37,8 @@ def save_game():
 
 @app.route("/login")
 def login():
-    return render_template("login.html", page_name="Login")
+    new_page: str = request.args.get("new_page")
+    return render_template("login.html", page_name="Login", new_page=new_page)
 
 
 @app.route("/logout")
@@ -51,7 +54,7 @@ def auth():
     session["is_logged"] = request.form["senha"]
     if default == session["is_logged"]:
         flash(f"{request.form['usuario']} logado com sucesso")
-        return redirect("/")
+        return redirect(f"/{request.form['new_page']}")
     else:
         flash("Tente novamente!")
         return redirect("login")
