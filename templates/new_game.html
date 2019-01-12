@@ -1,6 +1,6 @@
 {% extends "template.html" %}
 {% block content %}
-      <form action="/save_game" method="post">
+      <form action="{{ url_for(endpoint="save_game") }}" method="post">
         <fieldset>
           <div class="form-group">
             <label for="nome">Nome</label>
