@@ -17,8 +17,8 @@
         {% endwith %}
         <form method="POST" action={{ url_for(endpoint="auth") }}>
             <input type="hidden" name="new_page" value="{{ new_page or url_for(endpoint="index") }}"/>
-            <p><label>Nome de usuário:</label> <input class="form-control" type="text" name="usuario" required></p>
-            <p><label>Senha:</label> <input class="form-control" type="password" name="senha" required></p>
+            <p><label>Nome de usuário:</label> <input class="form-control" type="text" name="user" required></p>
+            <p><label>Senha:</label> <input class="form-control" type="password" name="password" required></p>
             <p><button class="btn btn-primary" type="submit">Entrar</button></p>
         </form>
 {% endblock %}

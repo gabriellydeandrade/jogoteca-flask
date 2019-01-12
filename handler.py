@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, redirect, session, flash, url_for
 
 from game import Game
+from user import User
 
 app = Flask(__name__)
 app.secret_key = "flask"
@@ -9,6 +10,14 @@ mario = Game(name='Super Mario', category='Classic', console='SNES')
 zelda = Game(name='The Legend Of Zelda', category='RPG', console='WII')
 
 games: list = [mario, zelda]
+
+user1 = User("gaby", "Gabrielly", "123")
+user2 = User("maciel", "Gabriel", "lol")
+
+users: dict = {
+    user1.id: user1,
+    user2.id: user2
+}
 
 
 @app.route("/")
@@ -48,16 +57,27 @@ def logout():
     return redirect(url_for(endpoint="index"))
 
 
+def user_exists(user: str) -> bool:
+    return user in users
+
+
+def validate_password(user: User, password_given: str) -> None:
+    if password_given == user.password:
+        session["is_logged"] = password_given
+
+
 @app.route("/auth", methods=['POST'])
 def auth():
-    default = "mestra"
-    session["is_logged"] = request.form["senha"]
-    if default == session["is_logged"]:
-        flash(f"{request.form['usuario']} logado com sucesso")
-        return redirect(request.form['new_page'])
-    else:
-        flash("Tente novamente!")
-        return redirect(url_for(endpoint="login"))
+    user = request.form["user"]
+    if user_exists(user=user):
+        validate_password(user=users[user], password_given=request.form["password"])
+
+        if session["is_logged"]:
+            flash(f"{users[user].name} logado com sucesso")
+            return redirect(request.form['new_page'])
+
+    flash("Tente novamente!")
+    return redirect(url_for(endpoint="login"))
 
 
 app.run(debug=True)
